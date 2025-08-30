@@ -40,6 +40,151 @@
 \maketitle
 
 
+\section{Sistemas lineales}
+
+Demuestre si los siguientes sistemas $L\left\{ u(t)\right\} $ (con entrada $u(t)$ y salida $g(t)=L\left\{ u(t)\right\} $, y $h(t)$ una función cualquiera) son lineales o no lineales.
+
+Para demostrar por contraejemplo programe la función que rechace la propiedad para 100 entradas generadas aleatoriamente:
+
+\begin{itemize}
+    \item $g\left(t\right)=\int_{-\infty}^{\infty}u(t)$
+    \item $g\left(t\right)=\begin{cases} 1 & u(t)>0\\ 0 & u(t)\leq0 \end{cases}\,$
+    \item $g\left(t\right)=\ln\left(u(t)\right)$
+    \item $g\left(t\right)=\cos\left(u(t)\right)$
+    \item $g\left(t\right)=\ln\left(5^{u(t)}\right)$
+\end{itemize}
+
+\subsection{$g(t)=\int^{\infty}_{-\infty}u(t)$}
+
+\begin{itemize}
+    \item  \textbf{Homogeneidad} ($L\{\alpha u(t)\} = \alpha L\{u(t)\}$):
+    \begin{align*}
+        L\{u(t)\} &= \int^{\infty}_{-\infty}u(t) \\
+        L\{\alpha u(t)\} &= \int^{\infty}_{-\infty}\alpha u(t) \\
+        L\{\alpha u(t)\} &= \alpha \int^{\infty}_{-\infty} u(t)\\
+        L\{\alpha u(t)\} &= \alpha L\{u(t)\}
+    \end{align*}
+    \begin{itemize}
+        \item \textbf{Aditividad} ($L\{u_1(t)+u_2(t)\}=L\{u_1(t)\}+ L\{u_2(t)\}$)
+        \begin{align*}
+            L\{u(t)\} &= \int^{\infty}_{-\infty}u(t) \\
+            L\{u_1(t)+u_2(t)\} &=  \int^{\infty}_{-\infty}u_1(t)+u_2(t)\\
+            L\{u_1(t)+u_2(t)\} &=  \int^{\infty}_{-\infty}u_1(t)+ \int^{\infty}_{-\infty}u_2(t)\\
+            L\{u_1(t)+u_2(t)\} &= L\{u_1(t)\} + L\{u_2(t)\}
+         \end{align*}
+    \end{itemize}
+    \item \textbf{Conclusión:} $g(t)$ cumple las condiciones para ser un sistema lineal.
+\end{itemize}
+
+\subsection{$
+\quad g(t) =
+\begin{cases}
+1 & u(t) > 0 \\
+0 & u(t) \leq 0
+\end{cases}
+$}
+
+\begin{itemize}
+    \item \textbf{Homogeneidad} ($L\{\alpha u(t)\} = \alpha L\{u(t)\}$): Analizando los casos:
+    \begin{itemize}
+        \item caso $u(t) > 0$, $\alpha > 0$: 
+        \begin{align*}
+            L\{\alpha u(t)\} &=  1\\
+            L\{\alpha u(t)\} &\neq \alpha L\{ u(t)\}
+        \end{align*}
+    \end{itemize}
+    Y evaluando un contraejemplo con $u(t) = 1$ y $\alpha = 2$
+    \begin{align*}
+        L\{\alpha u(t)\} &\stackrel{?}{=} \alpha L\{ u(t)\}\\
+        L\{2\} &\stackrel{?}{=} 2 L\{ 1\}\\
+        1 &\neq 2
+    \end{align*}
+    Y se pueden ver con más detalle en la sección \ref{subsec:contraejemplos}
+    \item \textbf{Conclusión:} $g(t)$ no cumple con las condiciones para ser un sistema lineal.
+
+\end{itemize}
+
+\subsection{$g(t)=\ln(u(t))$}
+
+\begin{itemize}
+    \item \textbf{Homogeneidad} ($L\{\alpha u(t)\} = \alpha L\{u(t)\}$)
+    \begin{align*}
+        L\{u(t)\} &= \ln(u(t))\\
+        L\{\alpha u(t)\} &= \ln(\alpha u(t))\\
+        L\{\alpha u(t)\} &= \ln(\alpha) + \ln(u(t))\\
+        L\{\alpha u(t)\} &\neq \alpha L\{u(t)\}
+    \end{align*}
+    Y evaluando un contraejemplo con $u(t) = 1$ y $\alpha = 2$
+    \begin{align*}
+        L\{\alpha u(t)\} &\stackrel{?}{=} \alpha L\{ u(t)\}\\
+        \ln(2) &\stackrel{?}{=} 2 \ln(1)\\
+        0.69 &\neq 0
+    \end{align*}
+    Y se pueden ver con más detalle en la sección \ref{subsec:contraejemplos}
+    \item \textbf{Conclusión:} $g(t)$ no cumple con las condiciones para ser un sistema lineal.
+\end{itemize}
+
+\subsection{$g(t)=\cos(u(t))$}
+
+\begin{itemize}
+    \item \textbf{Aditividad} ($L\{u_1(t)+u_2(t)\}=L\{u_1(t)\}+ L\{u_2(t)\}$)
+    \begin{align*}
+        L\{u(t)\} &= \cos(u(t))\\
+        L\{u_1(t)+u_2(t)\} &= \cos (u_1(t)+u_2(t))\\
+        \cos(a+b) &= \cos(a)\cos(b)-\sin(a)\sin(b)\\
+        L\{u_1(t)+u_2(t)\} &= \cos(u_1(t))\cos(u_2(t))-\sin(u_1(t))\sin(u_2(t))\\
+        L\{u_1(t)+u_2(t)\} &\neq L\{u_1(t)\}+L\{u_2(t)\} 
+    \end{align*}
+    Y verificando lo obtenido con un contrajemplo:
+    \begin{align*}
+        L\{u_1(t)+u_2(t)\} &\stackrel{?}{=} L\{u_1(t)\}+ L\{u_2(t)\}\\
+        \cos(1+2) &\stackrel{?}{=} \cos(1) + \cos(2)\\
+         -0.99 &\neq 0.54 + -0.41
+    \end{align*}
+    Y se pueden ver con más detalle en la sección \ref{subsec:contraejemplos}
+    \item \textbf{Conclusión}: $g(t)$ no cumple con los criterios para ser un sistema lineal.
+\end{itemize}
+
+\subsection{$g(t)=\ln(5^{u(t)})$}
+
+\begin{itemize}
+    \item \textbf{Homogeneidad} ($L\{\alpha u(t)\} = \alpha L\{u(t)\}$)
+    \begin{align*}
+        g(t)&=\ln(5^{u(t)})\\
+        g(t) &= u(t)\ln(5), \text{con} \ln(a^b)=b\ln(a)\\
+        L\{u(t)\} &= u(t)\ln(5)\\
+        L\{\alpha u(t)\} &= \alpha u(t) \ln(5)\\
+        L\{\alpha u(t)\} &= \alpha L\{u(t)\}
+    \end{align*}
+    \item \textbf{Aditividad} ($L\{u_1(t)+u_2(t)\}=L\{u_1(t)\}+ L\{u_2(t)\}$)
+        \begin{align*}
+        L\{u(t)\} &= u(t)\ln(5)\\
+        L\{u_1(t)+u_2(t)\} &= (u_1(t)+u_2(t)) \ln(5)\\
+        L\{u_1(t)+u_2(t)\} &= \ln(5)u_1(t)+\ln(5)u_2(t)\\
+        L\{u_1(t)+u_2(t)\} &= L\{u_1(t)\}+L\{u_2(t)\}
+    \end{align*}
+    \item \textbf{Conclusión}: $g(t)$ sí cumple con los criterios para ser un sistema lineal.
+\end{itemize}
+
+\subsection{Verificaciones de contraejemplos}
+\label{subsec:contraejemplos}
+
+Para cada uno de los sistemas que se determinaron como no lineales (b, c y d), se realizó:
+\begin{itemize}
+    \item Generación de conjuntos $u_1$, $u_2$ con tamaño 100 cada uno y un escalar $\alpha$. Para la función del $\ln$, se acotaron los valores menores a 0 como $0.00001$ por terminos de indefinición.
+    \item Vectorialmente con torch se revisó la aditividad $L\{u_1(t)+u_2(t)\} &\stackrel{?}{=} L\{u_1(t)\}+ L\{u_2(t)\}$
+    \item Vectorialmente se revisó la homogeneidad $L\{\alpha u(t)\} = \alpha L\{u(t)\}$
+\end{itemize}
+
+Los resultados obtenidos en la figura \ref{fig:counterexamples}
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../img/counterexamples.PNG}
+    \caption{Resultados de la prueba automatizada de búsqueda de contraejemplos en el análisis de los posibles sistemas lineales, donde los sistemas b, c y d se les encontró que no cumplen lo necesario para ser considerados lineales.}
+    \label{fig:counterexamples}
+\end{figure*}
+
 \section{Interpolación bilineal}
 
 \subsection{Proceso matemático}
