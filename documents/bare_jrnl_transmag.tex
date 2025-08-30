@@ -1,0 +1,143 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt} 
+
+\lstset{
+  language=R,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  showstringspaces=false,
+  breaklines=true
+}
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+
+\title{Trabajo práctico 0: Procesamiento Digital de Imágenes}
+
+\author{
+    Diego Naranjo \\ Tecnológico de Costa Rica \\ l.naranjo.2@estudiantec.cr
+    \and Gabriel Bonilla \\ Tecnológico de Costa Rica \\ g.bonilla.1@estudiantec.cr
+    \and José Godínez \\ Tecnológico de Costa Rica \\ rodolfojose1996@estudiantec.cr
+}
+
+
+\markboth{Instituto Tecnológico de Costa Rica, Agosto~2025}%
+
+\maketitle
+
+
+\section{Interpolación bilineal}
+
+\subsection{Proceso matemático}
+
+Para interpolar bilinealmente el valor de la coordenada $z$ para cada uno de los puntos de una submatriz, se requiere identificar un plano que pasa por 3 puntos ya conocidos, en este caso de las esquinas. Para ello, tenemos que recordar que un plano está definido por la ecuación $ax + by + cz + d = 0$, siendo $a$, $b$ y $c$ los coeficientes del plano, $d$ su offset y $x$, $y$ y $z$ las coordenadas de un punto en $R^3$. \\
+
+Dicho esto, para calcular la ecuación del plano en cada una de las submatrices, vamos tomar 3 de sus puntos conocidos. Los vamos a denominar $P_1$, $P_2$ y $P_3$. Con ellos, vamos a calcular 2 vectores directores plano:
+
+\[
+\vec{(P_1 - P_2)} = [x_1 - x_2, y_1 - y_2, z_1 - z_2]
+\]
+\[
+\vec{(P_2 - P_3)} = [x_2 - x_3, y_2 - y_3, z_2 - z_3]
+\]
+
+Al estos vectores estar en el plano, sirven para obtener un vector normal del mismo, y así mismo, sus coeficientes. Esto se hace mediante el producto cruz de los vectores:
+
+\[
+\vec{(P_1 - P_2)} \times \vec{(P_2 - P_3)} = \vec{n}
+\]
+
+Una vez obtenido el vector normal $\vec{n}$, podemos definir la exuación del plano de la siguiente manera:
+
+\[
+n_1x + n_2y + n_3z + d = 0
+\]
+
+Para determinar el valor de $d$, simplemente se sustituyen, en la ecuación, los valores de $x$, $y$ y $z$ por las coordenadas de un punto conocido del plano y se despeja $d$. En este caso, el punto escogido puede ser cualquiera de $P_1$, $P_2$ y $P_3$:
+
+\[
+d = -(n_1P_{1_x} + n_2P_{1_y} + n_3P_{1_z})
+\]
+
+Ya se tienen todos los valores necesarios para poder despejar y encontrar la coordenada $z$ de un punto utilizando la ecuación del plano, en casos que se conozcan sus coordenadas $x$, $y$: 
+
+\[
+z = \frac{(-d - n_1x - n_2y)}{n_3}
+\]
+
+\subsection{Ejemplo}
+
+La siguiente matriz $U$ representa una submatriz de una imagen a la que se le aplicó un aumento con $\alpha = 2$:
+
+\[
+U =
+    \begin{bmatrix}
+    1 & ? & 2 \\
+    ? & ? & ? \\
+    3 & ? & 4
+    \end{bmatrix}
+\]
+
+Dada la submatriz $U$, se tienen los puntos conocidos:
+
+\[
+P_1 = [0,0,1], P_2 [2,0,3], P_3 = [2,2,4]
+\]
+
+Se definen los 2 vectores directores como:
+
+\[
+\vec{P_1 - P_2} = [-2,0-2], \vec{P_2 - P_3} = [2,2,4]
+\]
+
+Se calcula el vector normal:
+
+\[
+\vec{P_1 - P_2} \times \vec{P_2 - P_3} = [-4,-2,4]
+\]
+
+Se utiliza $P_1$ para obtener el valor de $d$:
+
+\[
+d = -((-4 \cdot 0) + (-2\cdot 0) + (4\cdot 1)) = -4
+\]
+
+Por último, se calcula la coordenada $z$ para cada uno de los valores faltantes de la submatriz:
+
+\begin{align*}
+\textit{Para } (0,1,z), \; & z = \frac{(4 + (4 \cdot 0) + (2 \cdot 1))}{4} = 1.5 \\[6pt]
+\textit{Para } (1,0,z), \; & z = \frac{(4 + (4 \cdot 1) + (2 \cdot 0))}{4} = 2 \\[6pt]
+\textit{Para } (1,1,z), \; & z = \frac{(4 + (4 \cdot 1) + (2 \cdot 1))}{4} = 2.5 \\[6pt]
+\textit{Para } (1,2,z), \; & z = \frac{(4 + (4 \cdot 1) + (2 \cdot 2))}{4} = 3 \\[6pt]
+\textit{Para } (2,1,z), \; & z = \frac{(4 + (4 \cdot 2) + (2 \cdot 1))}{4} = 3.5
+\end{align*}
+
+La submatriz $U$ quedaría de la siguiente manera:
+
+\[
+U =
+    \begin{bmatrix}
+    1 & 1.5 & 2 \\
+    2 & 2.5 & 3 \\
+    3 & 3.5 & 4
+    \end{bmatrix}
+\]
+
+
+\end{document}
+
+
