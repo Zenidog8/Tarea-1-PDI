@@ -3,7 +3,7 @@
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-
+\usepackage{float}
 \usepackage{amsmath}
 
 \usepackage{listings}
@@ -34,8 +34,9 @@
     \and José Godínez \\ Tecnológico de Costa Rica \\ rodolfojose1996@estudiantec.cr
 }
 
+\pagestyle{myheadings}
+\markboth{Instituto Tecnológico de Costa Rica, Agosto~2025}{Instituto Tecnológico de Costa Rica, Agosto~2025}
 
-\markboth{Instituto Tecnológico de Costa Rica, Agosto~2025}%
 
 \maketitle
 
@@ -172,7 +173,7 @@ $}
 Para cada uno de los sistemas que se determinaron como no lineales (b, c y d), se realizó:
 \begin{itemize}
     \item Generación de conjuntos $u_1$, $u_2$ con tamaño 100 cada uno y un escalar $\alpha$. Para la función del $\ln$, se acotaron los valores menores a 0 como $0.00001$ por terminos de indefinición.
-    \item Vectorialmente con torch se revisó la aditividad $L\{u_1(t)+u_2(t)\} &\stackrel{?}{=} L\{u_1(t)\}+ L\{u_2(t)\}$
+    \item Vectorialmente con torch se revisó la aditividad $L\{u_1(t)+u_2(t)\} \overset{?}{=} L\{u_1(t)\}+L\{u_2(t)\}$.
     \item Vectorialmente se revisó la homogeneidad $L\{\alpha u(t)\} = \alpha L\{u(t)\}$
 \end{itemize}
 
@@ -282,6 +283,81 @@ U =
     \end{bmatrix}
 \]
 
+\section{Implementación del algoritmo Bilinear para el aumentado de tamaño de una imagen}
+
+\subsection{Estimación del punto P}
+
+\subsection{Implementación para cambiar el tamaño de una imágen}
+
+\subsection{Benchmark para cuantificar el error en el cambio de tamaño bilineal}
+
+\subsubsection{Definición del conjunto de imágenes}
+Se seleccionó un conjunto de 10 imágenes variadas para poner a prueba 
+el algoritmo de cambio de tamaño bilineal en distintos escenarios. 
+Estas imágenes permiten evaluar el rendimiento del método en contextos diversos.
+
+\subsubsection{Proceso experimental}
+El flujo experimental consistió en los siguientes pasos:
+\begin{enumerate}
+    \item Cargar cada imagen y normalizarla al rango $[0,1]$.
+    \item Redimensionar la imagen original a un tamaño reducido (ej. mitad de la resolución).
+    \item Volver a expandir la imagen reducida al tamaño original utilizando interpolación bilineal.
+    \item Calcular métricas de error comparando la imagen original y la reconstruida.
+\end{enumerate}
+
+Además, se implementaron las métricas \textbf{PSNR} y una métrica de 
+\textbf{similitud porcentual} derivada del MSE, con el fin de contar 
+con medidas tanto absolutas como relativas de calidad.
+
+\subsubsection{Métricas de evaluación}
+Se utilizaron las siguientes métricas:
+\begin{itemize}
+    \item \textbf{MSE (Mean Squared Error):} mide el error promedio al cuadrado 
+    entre la imagen original y la reconstruida. Valores bajos indican mayor similitud.
+    \item \textbf{PSNR (Peak Signal-to-Noise Ratio):} mide la relación señal-ruido 
+    en decibelios. Valores altos indican mejor calidad.
+    \item \textbf{Similitud porcentual:} métrica definida en el rango $[0,100]$, 
+    donde $100$ representa similitud máxima.
+\end{itemize}
+
+\subsubsection{Resultados del benchmark}
+La tabla \ref{tab:bilinear-benchmark} muestra los resultados obtenidos 
+para las 15 imágenes procesadas en el experimento y el factor de cambio aplicado 
+(escalado a la mitad y posterior reescalado al tamaño original).
+
+\begin{table}[H]
+\centering
+\caption{Resultados del benchmark de interpolación bilineal.}
+\label{tab:bilinear-benchmark}
+\begin{tabular}{c|c|c|c}
+\hline
+Imagen & MSE & PSNR (dB) & Similitud (\%) \\ \hline
+0  & 0.001813 & 27.416 & 99.8187 \\
+1  & 0.001829 & 27.377 & 99.8171 \\
+2  & 0.001506 & 28.221 & 99.8494 \\
+3  & 0.000733 & 31.348 & 99.9267 \\
+4  & 0.000872 & 30.597 & 99.9128 \\
+5  & 0.002168 & 26.640 & 99.7832 \\
+6  & 0.000563 & 32.493 & 99.9437 \\
+7  & 0.000555 & 32.559 & 99.9445 \\
+8  & 0.000550 & 32.597 & 99.9450 \\
+9  & 0.002302 & 26.379 & 99.7698 \\
+10 & 0.001837 & 27.359 & 99.8163 \\
+11 & 0.000502 & 32.991 & 99.9498 \\
+12 & 0.001599 & 27.963 & 99.8401 \\
+13 & 0.001257 & 29.005 & 99.8743 \\
+14 & 0.001680 & 27.746 & 99.8320 \\ \hline
+\textbf{Media} & 0.001318 & 29.379 & 99.8682 \\
+\textbf{Desv.~Est.} & 0.000636 & 2.437 & 0.0636 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Discusión de resultados}
+Se observa que el error cuadrático medio (MSE) se mantiene en el orden de $10^{-3}$, lo cual indica que la interpolación bilineal preserva la información de manera aceptable. Las métricas PSNR se encuentran en un rango de $26$ a $33$ dB, lo cual es consistente con una calidad percibida adecuada en aplicaciones de visión por computadora.  
+
+En cuanto a la similitud porcentual, todos los valores superan el $99.7\%$, lo cual refuerza la idea de que el cambio de tamaño bilineal introduce un error bajo. La desviación estándar reportada es pequeña, lo cual demuestra estabilidad del método frente a diferentes imágenes.
+
+En conclusión, el algoritmo de cambio de tamaño bilineal presenta un desempeño sólido en la preservación de calidad visual, aunque se aprecia que en imágenes con más detalle fino (ej. índices 5 y 9) el error tiende a ser mayor debido a la pérdida de información en el proceso de reducción.
 
 \end{document}
 
