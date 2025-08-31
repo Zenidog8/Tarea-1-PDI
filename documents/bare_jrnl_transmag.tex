@@ -137,6 +137,12 @@ $}
 \subsection{$g(t)=\cos(u(t))$}
 
 \begin{itemize}
+    \item \textbf{Homogeneidad} ($L\{\alpha u(t)\} = \alpha L\{u(t)\}$): Directamente por contraejemplo:
+        \begin{align*}
+            L\{\alpha u(t)\} &\stackrel{?}{=} \ln(\alpha u(t))\\
+            \cos (2\pi) &\stackrel{?}{=} 2 \cos (\pi)
+            1 \neq -2 
+        \end{align*}
     \item \textbf{Aditividad} ($L\{u_1(t)+u_2(t)\}=L\{u_1(t)\}+ L\{u_2(t)\}$)
     \begin{align*}
         L\{u(t)\} &= \cos(u(t))\\
@@ -151,8 +157,7 @@ $}
         \cos(1+2) &\stackrel{?}{=} \cos(1) + \cos(2)\\
          -0.99 &\neq 0.54 + -0.41
     \end{align*}
-    Y se pueden ver con más detalle en la sección \ref{subsec:contraejemplos}
-    \item \textbf{Conclusión}: $g(t)$ no cumple con los criterios para ser un sistema lineal.
+    \item \textbf{Conclusión:} $g(t)$ no cumple con las condiciones para ser un sistema lineal y se pueden ver con más detalle los contraejemplos en la sección \ref{subsec:contraejemplos}
 \end{itemize}
 
 \subsection{$g(t)=\ln(5^{u(t)})$}
