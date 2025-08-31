@@ -100,6 +100,11 @@ $}
         1 &\neq 2
     \end{align*}
     Y se pueden ver con más detalle en la sección \ref{subsec:contraejemplos}
+    \item \textbf{Aditividad} ($L\{u_1(t)+u_2(t)\}=L\{u_1(t)\}+ L\{u_2(t)\}$): Analizamos el caso donde $u_1(t),u_2(t) >0$
+    \begin{align*}
+        L\{u_1(t)+u_2(t)\} &\stackrel{?}{=} L\{u_1(t)\}+L\{u_2(t)\}\\
+        1 \neq 1+1
+    \end{align*}
     \item \textbf{Conclusión:} $g(t)$ no cumple con las condiciones para ser un sistema lineal.
 
 \end{itemize}
@@ -120,8 +125,13 @@ $}
         \ln(2) &\stackrel{?}{=} 2 \ln(1)\\
         0.69 &\neq 0
     \end{align*}
-    Y se pueden ver con más detalle en la sección \ref{subsec:contraejemplos}
-    \item \textbf{Conclusión:} $g(t)$ no cumple con las condiciones para ser un sistema lineal.
+    \item \textbf{Aditividad} ($L\{u_1(t)+u_2(t)\}=L\{u_1(t)\}+ L\{u_2(t)\}$): Directamente por contra ejemplo
+    \begin{align*}
+        L\{u_1(t)+u_2(t)\} &\stackrel{?}{=} L\{u_1(t)\}+ L\{u_2(t)\}\\
+        \ln (1+1) &\stackrel{?}{=} \ln (1) + \ln (1) \\
+        \ln (2) &\neq 0 \\
+    \end{align*}
+    \item \textbf{Conclusión:} $g(t)$ no cumple con las condiciones para ser un sistema lineal y se pueden ver con más detalle los contraejemplos en la sección \ref{subsec:contraejemplos}
 \end{itemize}
 
 \subsection{$g(t)=\cos(u(t))$}
